@@ -1,3 +1,4 @@
+---@diagnostic disable-next-line: undefined-global
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -24,6 +25,8 @@ vim.o.mouse = 'a'
 -- Don't show the mode, since it's already in the status line
 vim.o.showmode = false
 
+-- Python provider for plugins like molten.nvim
+vim.g.python3_host_prog = vim.fn.expand '~/.venvs/nvim/bin/python'
 -- Sync clipboard between OS and Neovim.
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
@@ -79,7 +82,7 @@ vim.o.scrolloff = 15
 -- instead raise a dialog asking if you wish to save the current file(s)
 -- See `:help 'confirm'`
 vim.o.confirm = true
-
+vim.cmd 'language en_US'
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -97,12 +100,6 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
-
--- TIP: Disable arrow keys in normal mode
-vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
-vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
-vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
-vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
@@ -122,6 +119,9 @@ vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, {
   desc = 'LSP code action',
 })
 vim.keymap.set('i', 'jk', '<Esc>', { noremap = false, desc = 'Exit insert mode' })
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, { silent = true })
+-- keymap to launch godot server from neovim
+-- vim.keymap.set('n', '<leader>sgd', function() vim.fn.serverstart '127.0.0.1:6004' end, { noremap = true, desc = 'Start Godot server' })
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
